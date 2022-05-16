@@ -18,16 +18,16 @@ services:
     labels:
       traefik.enable: true
       # Global redirection: all subdomains for http
-      traefik.http.routers.http-other-subdomains-catchall.rule: HostRegexp(`{subhost:(?:[a-z]+)}.trevthedev.localhost`)
+      traefik.http.routers.http-other-subdomains-catchall.rule: HostRegexp(`{subhost:(?:[a-z]+)}.${PROJECT_DOMAIN_NAME}`)
       traefik.http.routers.http-other-subdomains-catchall.entrypoints: web
       traefik.http.routers.http-other-subdomains-catchall.middlewares: redirect-to-secure-subdomains
       # Global redirection: base domain for http
-      traefik.http.routers.http-base-domain-catchall.rule: Host(`trevthedev.localhost`)
+      traefik.http.routers.http-base-domain-catchall.rule: Host(`${PROJECT_DOMAIN_NAME}`)
       traefik.http.routers.http-base-domain-catchall.entrypoints: web
       traefik.http.routers.http-base-domain-catchall.middlewares: redirect-to-secure-base-domain
       # Global redirection: base domain for https
       traefik.http.routers.https-base-domain-catchall.tls: true
-      traefik.http.routers.https-base-domain-catchall.rule: Host(`trevthedev.localhost`)
+      traefik.http.routers.https-base-domain-catchall.rule: Host(`${PROJECT_DOMAIN_NAME}`)
       traefik.http.routers.https-base-domain-catchall.entrypoints: web-secure
       traefik.http.routers.https-base-domain-catchall.middlewares: redirect-to-secure-base-domain
       # Middleware: Redirect to secure base domain
@@ -66,6 +66,6 @@ configs:
 
 secrets:
   tls_cert:
-    file: certs/trevthedev.localhost.pem
+    file: certs/${PROJECT_DOMAIN_NAME}.pem
   tls_key:
-    file: certs/trevthedev.localhost-key.pem
+    file: certs/${PROJECT_DOMAIN_NAME}-key.pem
