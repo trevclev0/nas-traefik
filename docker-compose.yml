@@ -32,7 +32,7 @@ services:
       - "${HTTP_PORT}:80"
       - "${HTTPS_PORT}:443"
     # Used for the Traefik dashboard
-      - "8080:8080"
+#      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
