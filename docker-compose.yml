@@ -3,14 +3,14 @@ services:
   reverse-proxy:
     image: traefik:2.6
     command:
-#      Enables the Traefik dashboard insecurely
+      # Enables the Traefik dashboard insecurely
 #      - --api.insecure=true
-#      Sets the log level
+      # Sets the log level
       - --log.level=DEBUG
-#      Ports used for http & https
+      # Ports used for http & https
       - --entryPoints.web.address=:80
       - --entrypoints.web-secure.address=:443
-#      Enables Docker integration and prevents containers from inadvertent exposure
+      # Enables Docker integration and prevents containers from inadvertent exposure
       - --providers.docker
       - --providers.docker.exposedByDefault=false
     labels:
@@ -24,14 +24,14 @@ services:
       traefik.http.routers.wwwsecure-catchall.entrypoints: web-secure
       traefik.http.routers.wwwsecure-catchall.tls: true
       traefik.http.routers.wwwsecure-catchall.middlewares: redirect-non-www-to-www
-#      Middleware: http(s)://(www.) to  https://www.
+      # Middleware: http(s)://(www.) to  https://www.
       traefik.http.middlewares.redirect-non-www-to-www.redirectregex.regex: ^https?://(?:www\.)?(.+)
       traefik.http.middlewares.redirect-non-www-to-www.redirectregex.replacement: https://www.$${1}
       traefik.http.middlewares.redirect-non-www-to-www.redirectregex.permanent: true
     ports:
       - "${HTTP_PORT}:80"
       - "${HTTPS_PORT}:443"
-#      Used for the Traefik dashboard
+    # Used for the Traefik dashboard
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
