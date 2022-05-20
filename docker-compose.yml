@@ -38,9 +38,6 @@ services:
       traefik.http.middlewares.redirect-to-secure-subdomains.redirectregex.regex: ^https?://(.+)
       traefik.http.middlewares.redirect-to-secure-subdomains.redirectregex.replacement: https://$${1}
       traefik.http.middlewares.redirect-to-secure-subdomains.redirectregex.permanent: true
-    configs:
-      - source: traefik-certificates
-        target: /configuration/certificates.yml
     secrets:
       - source: tls_cert
         target: /etc/ssl/private/tls_crt
@@ -59,10 +56,6 @@ networks:
   default:
     name: traefik-proxy
     external: true
-
-configs:
-  traefik-certificates:
-    file: conf/certificates.yml
 
 secrets:
   tls_cert:
