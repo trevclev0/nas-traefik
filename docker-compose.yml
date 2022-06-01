@@ -38,11 +38,6 @@ services:
       traefik.http.middlewares.redirect-to-secure-subdomains.redirectregex.regex: ^https?://(.+)
       traefik.http.middlewares.redirect-to-secure-subdomains.redirectregex.replacement: https://$${1}
       traefik.http.middlewares.redirect-to-secure-subdomains.redirectregex.permanent: true
-    secrets:
-      - source: tls_cert
-        target: /etc/ssl/private/tls_crt
-      - source: tls_key
-        target: /etc/ssl/private/tls_key
     ports:
       - "${HTTP_PORT}:80"
       - "${HTTPS_PORT}:443"
@@ -50,15 +45,11 @@ services:
 #      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./conf/:/configuration/
+      - ./conf:/configuration
+      - ./certs/${PROJECT_DOMAIN_NAME}.pem:/etc/ssl/private/tls-crt.pem:ro
+      - ./certs/${PROJECT_DOMAIN_NAME}-key.pem:/etc/ssl/private/tls-key.pem:ro
 
 networks:
   default:
     name: traefik-proxy
     external: true
-
-secrets:
-  tls_cert:
-    file: certs/${PROJECT_DOMAIN_NAME}.pem
-  tls_key:
-    file: certs/${PROJECT_DOMAIN_NAME}-key.pem

@@ -1,5 +1,5 @@
 # Dynamic configuration
 tls:
   certificates:
-    - certFile: /etc/ssl/private/tls_crt
-      keyFile: /etc/ssl/private/tls_key
+    - certFile: /etc/ssl/private/tls-crt.pem
+      keyFile: /etc/ssl/private/tls-key.pem
