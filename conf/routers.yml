@@ -1,0 +1,33 @@
+# Dynamic configuration
+http:
+  routers:
+    web-root-secure:
+      entryPoints:
+        - "web-secure"
+      rule: "Host(`{{env "TRAEFIK_DOMAIN"}}`)"
+      service: "www-trevthedev@docker"
+      middlewares:
+        - "redirect-to-www-secure"
+        - "redirect-to-https"
+        - "hsts-header"
+      tls:
+        options: "modern"
+
+    web-root-insecure:
+      entryPoints:
+        - "web"
+      rule: "Host(`{{env "TRAEFIK_DOMAIN"}}`)"
+      service: "www-trevthedev@docker"
+      middlewares:
+        - "redirect-to-www-secure"
+        - "redirect-to-https"
+        - "hsts-header"
+
+    sub-domain-insecure:
+      entryPoints:
+        - "web"
+      rule: "HostRegexp(`{subhost:(?:[a-z]+)}.{{env "TRAEFIK_DOMAIN"}}`)"
+      service: "noop@internal"
+      middlewares:
+        - "redirect-to-https"
+        - "hsts-header"

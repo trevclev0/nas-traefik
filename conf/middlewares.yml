@@ -1,0 +1,17 @@
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: "https"
+        permanent: true
+
+    redirect-to-www-secure:
+      redirectRegex:
+        regex: "^https?://(?:www\\.)?{{env "TRAEFIK_DOMAIN"}}(.*)"
+        replacement: "https://www.{{env "TRAEFIK_DOMAIN"}}${1}"
+        permanent: true
+
+    hsts-header:
+      headers:
+        customResponseHeaders:
+          Strict-Transport-Security: "max-age=63072000"

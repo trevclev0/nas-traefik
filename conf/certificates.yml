@@ -3,3 +3,10 @@ tls:
   certificates:
     - certFile: /etc/ssl/private/tls-crt.pem
       keyFile: /etc/ssl/private/tls-key.pem
+  options:
+    modern:
+      minVersion: VersionTLS13
+      sniStrict: true
+      preferServerCipherSuites: true
+      alpnProtocols:
+        - h2
